@@ -1,8 +1,14 @@
 name: Publish Package
 
 on:
+  workflow_dispatch: # Triggered manually via the GitHub UI
+
   release:
     types: [published]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
