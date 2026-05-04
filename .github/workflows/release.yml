@@ -1,0 +1,52 @@
+name: Publish Package
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish to Marketplaces
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Use Bun as the runtime and package manager, as required by project rules
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      # Patch package.json version in-place using a Bun inline script.
+      # We pass the version via an environment variable to avoid shell-quoting issues.
+      - name: Update package.json version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          bun -e "
+          const fs = require('fs');
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          pkg.version = process.env.VERSION;
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build package
+        run: bun run build
+
+      # bun publish reads the auth token from BUN_AUTH_TOKEN.
+      - name: Publish to npm
+        run: bun publish --access public
+        env:
+          BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
