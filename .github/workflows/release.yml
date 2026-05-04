@@ -45,13 +45,9 @@ jobs:
       - name: Build package
         run: bun run build
 
-      # Write the npm auth token to ~/.npmrc so bun publish can authenticate.
-      # BUN_AUTH_TOKEN alone is not always picked up correctly by bun publish;
-      # the .npmrc file is the reliable way to pass credentials to the npm registry.
-      - name: Configure npm authentication
-        run: printf '//registry.npmjs.org/:_authToken=%s\n' "$NPM_TOKEN" >> ~/.npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
+      # bun publish respects NPM_CONFIG_TOKEN for CI/CD authentication.
+      # See: https://bun.com/docs/pm/cli/publish
       - name: Publish to npm
         run: bun publish --access public
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
