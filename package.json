@@ -1,6 +1,9 @@
 {
   "name": "ai-sdk-github-copilot",
   "type": "module",
+  "version": "1.0.0",
+  "description": "A provider for GitHub Copilot, built on top of the Copilot SDK for the Vercel AI SDK.",
+  "license": "MIT",
   "main": "./dist/main.cjs",
   "module": "./dist/main.mjs",
   "types": "./dist/main.d.mts",
@@ -18,7 +21,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "author": {
     "name": "fermeridamagni",
@@ -28,6 +32,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/fermeridamagni/ai-sdk-github-copilot"
+  },
+  "bugs": {
+    "url": "https://github.com/fermeridamagni/ai-sdk-github-copilot/issues",
+    "email": "help@magni.dev"
   },
   "scripts": {
     "build": "tsdown",
