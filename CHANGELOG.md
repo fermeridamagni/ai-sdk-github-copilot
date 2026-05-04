@@ -1,5 +1,34 @@
 # Changelog
 
+## v1.0.0 - 2026-05-04
+
+Compared to the initial repository history
+
+### Features
+- feat: add GitHub Actions workflow for package publishing (41b3f01)
+- feat: add auto-assign workflow for issues and pull requests (9c9c313)
+- feat: add changelog and update package.json metadata (83bc504)
+- feat: update package.json for module exports and dependencies (b7d05f3)
+- feat: add tsdown configuration for library bundling (f762314)
+- feat: implement core Copilot provider and language model functionality (c1e0c34)
+
+### Fixes
+- fix: changed version before release (e51caa3)
+
+### Documentation
+- docs: clarify language usage in project rules (356a53d)
+- docs: add contributing guide and README for AI SDK provider (7d22af0)
+
+### Chores
+- chore: add path alias for utils in tsconfig.json (d2f9f99)
+- chore: update biome configuration to include JavaScript globals (9453284)
+- chore: added new instructions to AGENTS.md (45a3005)
+
+### Other Changes
+- Add MIT License to the project (020287e)
+- Add unit tests for Copilot language model and provider (4c4360d)
+- initial commit (e769935)
+
 All notable changes to `ai-sdk-github-copilot` are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
@@ -168,3 +197,4 @@ session management, no JSON-RPC plumbing required.
 - [@fermeridamagni](https://github.com/fermeridamagni) — initial implementation
 
 [1.0.0]: https://github.com/fermeridamagni/ai-sdk-github-copilot/releases/tag/v1.0.0
+
