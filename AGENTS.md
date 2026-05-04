@@ -3,7 +3,7 @@
 ## Rules
 
 - Always use Bun as the package manager and runtime environment.
-- Use TypeScript for all development.
+- Always use TypeScript instead of Javascript.
 - Get up-to-date info with the Context7 MCP.
 - Document and explain why the code is for.
 
