@@ -5,6 +5,7 @@
 - Always use Bun as the package manager and runtime environment.
 - Use TypeScript for all development.
 - Get up-to-date info with the Context7 MCP.
+- Document and explain why the code is for.
 
 ## Code Standards
 
