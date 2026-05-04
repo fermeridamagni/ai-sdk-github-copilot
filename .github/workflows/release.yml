@@ -1,8 +1,6 @@
 name: Publish Package
 
 on:
-  workflow_dispatch: # Triggered manually via the GitHub UI
-
   release:
     types: [published]
 
@@ -15,7 +13,7 @@ permissions:
 
 jobs:
   publish:
-    name: Publish to Marketplaces
+    name: Publish to npm
     runs-on: ubuntu-latest
 
     steps:
@@ -28,9 +26,18 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Extract version from tag
+      # Strip the leading "v" from the git tag (e.g. "v1.2.3" → "1.2.3").
+      # Fail fast if the result is not a valid semver string (MAJOR.MINOR.PATCH)
+      # so we don't waste time building a package that npm will reject.
+      - name: Extract and validate version from tag
         id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+'; then
+            echo "::error::Tag '${GITHUB_REF_NAME}' does not produce a valid semver version: '${VERSION}'. Use a tag like v1.2.3."
+            exit 1
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
       # Patch package.json version in-place using a Bun inline script.
       # We pass the version via an environment variable to avoid shell-quoting issues.
@@ -51,9 +58,14 @@ jobs:
       - name: Build package
         run: bun run build
 
-      # bun publish respects NPM_CONFIG_TOKEN for CI/CD authentication.
-      # See: https://bun.com/docs/pm/cli/publish
+      # Write the npm auth token directly into ~/.npmrc.
+      # This is the most reliable way to pass credentials to bun publish —
+      # NPM_CONFIG_TOKEN is documented but not always honoured in practice,
+      # while the .npmrc entry is the canonical npm authentication mechanism.
+      - name: Configure npm authentication
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+
       - name: Publish to npm
         run: bun publish --access public
-        env:
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
