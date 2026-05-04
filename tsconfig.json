@@ -29,7 +29,9 @@
 
     // Path aliases
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@utils/*": ["./src/utils/*"]
     }
-  }
+  },
+  "include": ["src", "tests"]
 }
