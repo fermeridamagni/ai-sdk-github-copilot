@@ -3,6 +3,12 @@
   "type": "module",
   "version": "1.0.0",
   "description": "A provider for GitHub Copilot, built on top of the Copilot SDK for the Vercel AI SDK.",
+  "keywords": [
+    "ai-sdk",
+    "ai",
+    "github-copilot",
+    "copilot-sdk"
+  ],
   "license": "MIT",
   "main": "./dist/main.cjs",
   "module": "./dist/main.mjs",
