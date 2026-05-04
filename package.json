@@ -1,7 +1,7 @@
 {
   "name": "ai-sdk-github-copilot",
   "type": "module",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A provider for GitHub Copilot, built on top of the Copilot SDK for the Vercel AI SDK.",
   "license": "MIT",
   "main": "./dist/main.cjs",
